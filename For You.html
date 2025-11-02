@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For You ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      height:100vh;
+      width:100%;
+      background:linear-gradient(135deg,#0b001a,#2d0033,#000);
+      background-size:400% 400%;
+      animation:bgFlow 15s ease infinite;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      font-family:'Poppins',sans-serif;
+      color:#fff;
+      position:relative;
+    }
+    @keyframes bgFlow{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    .container{
+      width:95%;
+      max-width:1200px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:40px;
+      text-align:center;
+      animation:fadeIn 2s ease forwards;
+      z-index:2;
+    }
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .photos{
+      display:flex;
+      justify-content:center;
+      gap:40px;
+      flex-wrap:wrap;
+    }
+    .photos img{
+      width:320px;
+      height:450px;
+      object-fit:cover;
+      border-radius:20px;
+      box-shadow:0 0 50px rgba(255,105,180,0.5);
+      animation:float 4s ease-in-out infinite;
+      transition:transform 0.3s;
+    }
+    .photos img:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 60px rgba(255,192,203,0.7);
+    }
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-15px)}
+    }
+
+    .text{
+      width:90%;
+      max-width:800px;
+      font-size:1.4rem;
+      font-weight:400;
+      line-height:1.8;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      padding:25px 30px;
+      border-radius:20px;
+      overflow:hidden;
+      text-shadow:0 0 15px rgba(255,255,255,0.3);
+      background-clip:text;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:colorTyping 6s infinite linear;
+      background-size:400% 100%;
+      white-space:normal; /* FIXED HERE ✅ */
+      word-break:break-word; /* ensures long words wrap */
+      min-height:120px; /* for stable layout */
+    }
+
+    @keyframes colorTyping {
+      0%{background-position:0% 50%;background-image:linear-gradient(90deg,#ffb6c1,#ff8ff5,#ffd6a5,#a3c4f3,#bdb2ff);}
+      100%{background-position:100% 50%;background-image:linear-gradient(90deg,#bdb2ff,#a3c4f3,#ffd6a5,#ff8ff5,#ffb6c1);}
+    }
+
+    .heart{
+      position:absolute;
+      width:20px;
+      height:20px;
+      background:red;
+      transform:rotate(45deg);
+      animation:rise 6s linear infinite;
+      opacity:0.8;
+      box-shadow:0 0 20px rgba(255,0,0,0.6);
+    }
+    .heart::before,.heart::after{
+      content:'';
+      position:absolute;
+      width:20px;
+      height:20px;
+      background:red;
+      border-radius:50%;
+    }
+    .heart::before{top:-10px;left:0}
+    .heart::after{left:-10px;top:0}
+    @keyframes rise{
+      0%{transform:translateY(0) rotate(45deg);opacity:1}
+      100%{transform:translateY(-800px) rotate(45deg);opacity:0}
+    }
+
+    @media (max-width:768px){
+      .photos img{width:250px;height:340px}
+      .text{font-size:1.1rem;line-height:1.6;padding:20px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="photos">
+      <img src="pic1.jpeg" alt="Her Photo 1">
+      <img src="pic2.jpeg" alt="Her Photo 2">
+    </div>
+
+    <div class="text" id="typeText"></div>
+  </div>
+
+  <script>
+    const lines=[
+      "Jab tum meri zindagi mein aayi, sab kuch badal gaya...",
+      "Tum meri duniya ka wo hissa ho jise main har din mehsoos karta hoon.",
+      "Kuch log bas dil mein rehte hain, bina kuch kahe... tum unhi mein se ho.",
+      "Tum meri har dua ka wo hissa ho jahan main sirf tumhara naam leta hoon.",
+      "Main chahta nahi, zarurat ho tum meri. Tum mere sukoon ki wajah ho.",
+      "Kabhi socha nahi tha kisi ke liye itna feel karunga... par tum dil mein bas gayi ho.",
+      "Har baar jab tum muskurati ho, lagta hai jaise duniya ruk gayi ho.",
+      "Tum meri khamoshi ki awaz ho, meri aankhon ka sapna, aur mere dil ki tasveer ho.",
+      "Agar kabhi tum thak jao, main wahi khamosh kandha ban jaunga jahan tum sukoon pa sako.",
+      "Main chahta hoon tumhe hamesha khush dekhna — chahe main kahin bhi rahu ❤️"
+    ];
+
+    let textEl=document.getElementById('typeText');
+    let charIndex=0, lineIndex=0, speed=60;
+
+    function type(){
+      if(lineIndex<lines.length){
+        if(charIndex<lines[lineIndex].length){
+          textEl.textContent+=lines[lineIndex].charAt(charIndex);
+          charIndex++;
+          setTimeout(type,speed);
+        }else{
+          setTimeout(()=>{
+            textEl.style.transition='opacity 0.6s ease';
+            textEl.style.opacity='0';
+            setTimeout(()=>{
+              textEl.textContent='';
+              textEl.style.opacity='1';
+              charIndex=0;
+              lineIndex++;
+              type();
+            },600);
+          },1300);
+        }
+      }else{
+        setTimeout(()=>{
+          textEl.textContent='';
+          lineIndex=0;
+          type();
+        },4000);
+      }
+    }
+    type();
+
+    // Floating hearts
+    setInterval(()=>{
+      const heart=document.createElement('div');
+      heart.className='heart';
+      heart.style.left=Math.random()*100+'vw';
+      heart.style.background=`hsl(${Math.random()*360},70%,60%)`;
+      heart.style.animationDuration=(Math.random()*3+4)+'s';
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),7000);
+    },300);
+  </script>
+</body>
+</html>
